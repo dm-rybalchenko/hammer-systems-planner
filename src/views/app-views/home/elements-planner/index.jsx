@@ -44,7 +44,7 @@ class CreateTable extends React.Component {
 	
 	addElementToPlanner(){
 		if (this.state.chosenItem){
-			this.state.chosenItem.id = Math.random();
+			// this.state.chosenItem.id = Math.random();
 			this.setState({arrangement: [...this.state.arrangement, this.state.chosenItem]})
 		}
 	}
@@ -52,11 +52,10 @@ class CreateTable extends React.Component {
 	getElementsPlanner() {
 		return elementsPlanner.map(elem => {
 			return (
-				<img id={elem.id}
-					style={{}}
-					src={"/img/planner" + elem.cover}
-					alt={elem.name}
-				/>
+				<Flex className={"planner__item"} alignItems="center" justifyContent="between" flexDirection="column">
+					<img src={"/img/planner" + elem.cover} alt={elem.name}/>
+					<p name={elem.name}>{elem.title}</p>
+				</Flex>
 			)
 		})
 	}
@@ -64,10 +63,12 @@ class CreateTable extends React.Component {
 	renderArrangement(elements){
 		return elements.map(elem => {
 			return (
-				<div>
-				<img src={"/img/planner" + elem.cover} alt={elem.name}/>
-				<p name={elem.name}>{elem.title}</p>
-				</div>
+				<img
+					id={elem.id}
+					style={{}}
+					src={"/img/planner" + elem.cover}
+					alt={elem.name}
+				/>
 			)
 		})
 	}
