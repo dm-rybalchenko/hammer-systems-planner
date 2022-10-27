@@ -1,0 +1,55 @@
+const elementsPlanner = [
+	{
+		title: 'Стол 2х местный',
+		name: 'tableTwo',
+		width: 20,
+		height: 60,
+		coordX: 0,
+		coordY: 0,
+		id: null,
+		cover: '/tableTwo.jpg',
+	},
+	{
+		title: 'Стол 4х местный',
+		name: 'tableFour',
+		width: 60,
+		height: 60,
+		coordX: 0,
+		coordY: 0,
+		id: null,
+		cover: '/tableFour.jpg',
+	},
+	{
+		title: 'Стол 5ти местный',
+		name: 'tableFive',
+		width: 60,
+		height: 60,
+		coordX: 0,
+		coordY: 0,
+		id: null,
+		cover: '/tableFive.jpg',
+	},
+	{
+		title: 'Стул',
+		name: 'chair',
+		width: 20,
+		height: 20,
+		coordX: 0,
+		coordY: 0,
+		id: null,
+		cover: '/chair.jpg',
+	},
+	{
+		title: 'Цветок',
+		name: 'plant',
+		width: 20,
+		height: 20,
+		coordX: 0,
+		coordY: 0,
+		id: null,
+		cover: '/plant.jpg',
+	},
+]
+
+
+export default elementsPlanner
