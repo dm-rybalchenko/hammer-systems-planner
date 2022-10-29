@@ -1,12 +1,11 @@
 import React from 'react'
-import { Tabs, Button, Row, Col } from 'antd';
+import { Tabs, Button, Row, Col, Input } from 'antd';
+import { UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import Flex from 'components/shared-components/Flex';
 import elementsPlanner from './elementsPlanner';
 
 
 const { TabPane } = Tabs;
-
-
 
 class CreateTable extends React.Component {
 	constructor(props) {
@@ -23,7 +22,9 @@ class CreateTable extends React.Component {
 		this.deleteElement = this.deleteElement.bind(this);
 		this.chooseElementToDrug = this.chooseElementToDrug.bind(this);
 		this.drugElement = this.drugElement.bind(this);
+		this.uploadArrangement = this.uploadArrangement.bind(this);
 	}
+
 	
 	
 	chooseElementtoAdd(event) {
@@ -44,11 +45,12 @@ class CreateTable extends React.Component {
 	
 	addElementToPlanner(){
 		this.removeHightLight();
-		const itemToAdd = {};
-		Object.assign(itemToAdd, this.state.chosenItem);
-
-		if (itemToAdd){
+				
+		if (this.state.chosenItem !== null){
+			const itemToAdd = {};
+			Object.assign(itemToAdd, this.state.chosenItem);
 			const random = Math.random().toString(36).substring(2, 6);
+
 			itemToAdd.id = random;
 			itemToAdd.class = "planner__item-canvas";
 			this.setState({arrangement: [...this.state.arrangement, itemToAdd]});
@@ -67,13 +69,14 @@ class CreateTable extends React.Component {
 
 	deleteElement(){
 		const elem = document.querySelector(".planner__item_selected");
-		const idElem = elem.id;
-		const indexDelete = this.state.arrangement.findIndex(item => item.id === idElem);
-		const allElems = this.state.arrangement;
-		allElems.splice(indexDelete, 1);
-
-		this.setState({arrangement: allElems})
-		
+		if (elem !== null) {
+			const idElem = elem.id;
+			const indexDelete = this.state.arrangement.findIndex(item => item.id === idElem);
+			const allElems = this.state.arrangement;
+			allElems.splice(indexDelete, 1);
+	
+			this.setState({arrangement: allElems})
+		}
 	}
 	
 	getElementsPlanner() {
@@ -90,8 +93,7 @@ class CreateTable extends React.Component {
 	renderArrangement(elements){
 		return elements.map(elem => {
 			return (
-				<img
-					id={elem.id}
+				<img id={elem.id}
 					style={{top: `${elem.coordY}px`, left: `${elem.coordX}px`}}
 					className={elem.class}
 					src={"/img/planner" + elem.cover}
@@ -145,8 +147,29 @@ class CreateTable extends React.Component {
 			event.target.classList.add('planner__item_selected');
 		}
 	}
+
+	uploadArrangement(){
+		const selectedFile = document.querySelector('.planner-input-file');
+		const file = selectedFile.files[0];
+  		const reader = new FileReader();
+		reader.readAsText(file);
+
+		reader.onload = () => {	this.setState({arrangement: JSON.parse(reader.result)}); };
+	  	reader.onerror = () => { alert(reader.error); };
+	}
+
 	
+	componentDidMount(){
+		let arr = localStorage.getItem('plannerArrangement');
+		if (arr === null) return;
+		this.setState({arrangement: JSON.parse(arr)});
+	}
 	
+	componentDidUpdate(){
+		localStorage.setItem('plannerArrangement', JSON.stringify(this.state.arrangement));
+	}
+	
+
 	render() {
 		return (
 			<div>
@@ -184,6 +207,22 @@ class CreateTable extends React.Component {
 						className="planner__container">
 							{this.renderArrangement(this.state.arrangement)}
 					</div>
+				</div>
+				<div className="planner-main-box">
+					<Row>
+						<Col>
+    						<Input className='planner-input-file' type='file' size="small"/>
+							<br/>
+							<Button onClick={this.uploadArrangement} icon={<UploadOutlined />}>Загрузить выбранный файл</Button>
+						</Col>
+						<Col>
+		    				<Button
+								href={"data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.arrangement))}
+								download="arrangement-restaurant.json"
+								icon={<DownloadOutlined />}
+							>Скачать файл тукущего расположения</Button>
+						</Col>
+					</Row>
 				</div>
 			</div>
 		)
