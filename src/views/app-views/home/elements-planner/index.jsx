@@ -47,9 +47,8 @@ class CreateTable extends React.Component {
 		this.removeHightLight();
 				
 		if (this.state.chosenItem !== null){
-			const itemToAdd = {};
-			Object.assign(itemToAdd, this.state.chosenItem);
-			const random = Math.random().toString(36).substring(2, 6);
+			let itemToAdd = Object.assign({}, this.state.chosenItem);
+			const random = crypto.randomUUID();
 
 			itemToAdd.id = random;
 			itemToAdd.class = "planner__item-canvas";
@@ -70,12 +69,8 @@ class CreateTable extends React.Component {
 	deleteElement(){
 		const elem = document.querySelector(".planner__item_selected");
 		if (elem !== null) {
-			const idElem = elem.id;
-			const indexDelete = this.state.arrangement.findIndex(item => item.id === idElem);
-			const allElems = this.state.arrangement;
-			allElems.splice(indexDelete, 1);
-	
-			this.setState({arrangement: allElems})
+			const [allElems, deletedElem] = this.splitArr(this.state.arrangement, elem.id);
+			this.setState({arrangement: allElems});
 		}
 	}
 	
@@ -130,10 +125,7 @@ class CreateTable extends React.Component {
 	drugElement(event) {
 		if (event.type === "mousemove" && this.state.idElemToDrug !== null){
 			event.preventDefault();
-			const idElem = this.state.idElemToDrug;
-			const indexForDrug = this.state.arrangement.findIndex(item => item.id === idElem);
-			const allElems = this.state.arrangement;
-			const [druggedElem] = allElems.splice(indexForDrug, 1);
+			const [allElems, druggedElem] = this.splitArr(this.state.arrangement, this.state.idElemToDrug);
 
 			let elemX = event.pageX - this.state.coordsDiff.x;
 			let elemY = event.pageY - this.state.coordsDiff.y;
@@ -146,6 +138,13 @@ class CreateTable extends React.Component {
 			this.removeHightLight();
 			event.target.classList.add('planner__item_selected');
 		}
+	}
+
+	splitArr(arr, idElem){
+		const allElems = arr;
+		const indexElem = arr?.findIndex(item => item.id === idElem);
+		const [elem] = allElems.splice(indexElem, 1);
+		return [allElems, elem];
 	}
 
 	uploadArrangement(){

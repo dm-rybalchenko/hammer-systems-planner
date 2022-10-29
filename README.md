@@ -1,3 +1,17 @@
+# Restaurant table and furniture planner for Hammer Systems company
+
+* You can add various elements to the constructor and arrange them.
+
+* You can save the arrangement of furniture to a file on your computer (coordinates, types/sizes/id of elements).
+
+* You can also upload similar layout files.
+
+## Screenshot
+![Screenshot-app](/public/Screenshot-app.jpg)
+
+*At this stage, only the PC version has been implemented.*
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
