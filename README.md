@@ -6,6 +6,8 @@
 
 * You can also upload similar layout files.
 
+[Link to deployed application](https://planner-7fb0f.web.app/)
+
 ## Screenshot
 ![Screenshot-app](/public/Screenshot-app.jpg)
 
